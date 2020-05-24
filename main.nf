@@ -27,3 +27,5 @@ process spades {
     spades.py -k 21,33,55,77 --careful --only-assembler --pe1-1 ${fq_1} --pe1-2 ${fq_2} -o ${genomeName} -t 2
     """
 }
+
+// TODO we only need to store the genomeName/scaffolds.fasta as genomeName_scaffolds.fasta
