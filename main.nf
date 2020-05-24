@@ -20,6 +20,8 @@ process spades {
 
 
     script:
+    fq_1= genomeReads[0] 
+    fq_2= genomeReads[1]
 
     """
     spades.py -k 21,33,55,77 --careful --only-assembler --pe1-1 ${fq_1} --pe1-2 ${fq_2} -o ${genomeName} -t 2
