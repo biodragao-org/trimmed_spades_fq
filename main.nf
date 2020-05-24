@@ -1,29 +1,27 @@
-
-ch_refFILE = Channel.value("$baseDir/refFILE")
-
-inputFilePattern = "./*_{R1,R2}.fastq.gz"
-Channel.fromFilePairs(inputFilePattern)
-        .into {  ch_in_PROCESS }
+Channel.fromFilePairs("./*_{R1,R2}.p.fastq")
+        .into {  ch_in_spades }
 
 
+/*
+#==============================================
+# spades
+#==============================================
+*/
 
-process process {
-#    publishDir 'results/PROCESS'
-#    container 'PROCESS_CONTAINER'
-
+process spades {
+    container 'quay.io/biocontainers/spades:3.14.0--h2d02072_0'
+    publishDir 'results/spades'
 
     input:
-    set genomeFileName, file(genomeReads) from ch_in_PROCESS
+    tuple genomeName, file(genomeReads) from ch_in_spades
 
     output:
-    path("""${PROCESS_OUTPUT}""") into ch_out_PROCESS
+    path """${genomeName}_spades""" into ch_out_spades
 
 
     script:
-    #FIXME
-    genomeName= genomeFileName.toString().split("\\_")[0]
-    
+
     """
-    CLI PROCESS
+    spades.py -k 21,33,55,77 --careful --only-assembler --pe1-1 ${fq_1} --pe1-2 ${fq_2} -o ${genomeName}_spades -t 2
     """
 }
