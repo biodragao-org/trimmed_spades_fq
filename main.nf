@@ -16,12 +16,12 @@ process spades {
     tuple genomeName, file(genomeReads) from ch_in_spades
 
     output:
-    path """${genomeName}_spades""" into ch_out_spades
+    path """${genomeName}""" into ch_out_spades
 
 
     script:
 
     """
-    spades.py -k 21,33,55,77 --careful --only-assembler --pe1-1 ${fq_1} --pe1-2 ${fq_2} -o ${genomeName}_spades -t 2
+    spades.py -k 21,33,55,77 --careful --only-assembler --pe1-1 ${fq_1} --pe1-2 ${fq_2} -o ${genomeName} -t 2
     """
 }
