@@ -1,3 +1,16 @@
+#!/usr/bin/env nextflow
+
+/*
+################
+params
+################
+*/
+
+
+params.saveBy = 'copy'
+
+
+
 Channel.fromFilePairs("./*_{R1,R2}.p.fastq")
         .into {  ch_in_spades }
 
@@ -10,7 +23,7 @@ Channel.fromFilePairs("./*_{R1,R2}.p.fastq")
 
 process spades {
     container 'quay.io/biocontainers/spades:3.14.0--h2d02072_0'
-    publishDir 'results/spades'
+    publishDir 'results/spades', mode: params.saveBy
 
     input:
     tuple genomeName, file(genomeReads) from ch_in_spades
