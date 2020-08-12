@@ -19,7 +19,7 @@ params.saveMode = 'copy'
 params.filePattern = "./*_{R1,R2}.fastq.gz"
 
 Channel.fromFilePairs(params.filePattern)
-        .into { ch_in_spades }
+        .set { ch_in_spades }
 
 
 /*
