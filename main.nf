@@ -14,10 +14,11 @@ params
 #==============================================
 */
 
-params.saveBy = 'copy'
+params.resultsDir = 'results/spades'
+params.saveMode = 'copy'
+params.filePattern = "./*_{R1,R2}.fastq.gz"
 
-
-Channel.fromFilePairs("./*_{R1,R2}.p.fastq")
+Channel.fromFilePairs(params.filePattern)
         .into { ch_in_spades }
 
 
@@ -29,7 +30,7 @@ Channel.fromFilePairs("./*_{R1,R2}.p.fastq")
 
 process spades {
     container 'quay.io/biocontainers/spades:3.14.0--h2d02072_0'
-    publishDir 'results/spades', mode: params.saveBy
+    publishDir params.resultsDir, mode: params.saveMode
 
     input:
     tuple genomeName, file(genomeReads) from ch_in_spades
